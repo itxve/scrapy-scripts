@@ -1,0 +1,49 @@
+name: Spider
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: "Channel No"
+        required: true
+        default: ""
+      range:
+        description: "start-end"
+        required: true
+        default: ""
+      must_has_text:
+        description: ""
+        required: false
+        default: ""
+
+env:
+  fname: ${{github.event.inputs.channel}}${{github.event.inputs.range}}
+
+jobs:
+  spider:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: "pip" # caching pip dependencies
+
+      - name: Install requirements
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run Task
+        env:
+          channel: ${{github.event.inputs.channel}}
+          range: ${{github.event.inputs.range}}
+          must_has_text: ${{github.event.inputs.must_has_text}}
+        run: python run.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{env.fname}}
+          path: out # upload dir
