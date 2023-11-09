@@ -6,7 +6,7 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-import json
+import json, os
 from scrapy.exceptions import DropItem
 from .spiders.tg_channel_spider import TgChannelSpider
 
@@ -21,8 +21,9 @@ class TgChannelPipeline:
 
     def open_spider(self, spider: TgChannelSpider):
         self.resolve_rule(spider)
+        os.makedirs("./out", exist_ok=True)
         self.file = open(
-            f"./out/{spider.channel + spider.range}.jsonl", "a+", encoding="utf-8"
+            f"./out/{spider.channel + spider.range}.jsonl", "w", encoding="utf-8"
         )
 
     def resolve_rule(self, spider: TgChannelSpider):
