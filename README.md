@@ -1,8 +1,8 @@
 ## some myself scrapy script
 
-- [Github Trending Top 25](./scrapys/github_spider.py)
+- [Github Trending Top 25](./scrapys/spiders/github_spider.py)
 
-- [public `TG` channel message ](./scrapys/tg_channel_spider.py)
+- [Scrapy public `TG` Channel Message ](./scrapys/spiders/tg_channel_spider.py)
 
 ##### run scrapy on github acton
 
